@@ -14,4 +14,12 @@ describe('Classe Semente', () => {
         expect(semente.estoque).toBe(estoque);
     });
 
+    it('deve lançar um erro se o nome da semente for vazio', () => {
+        const nomeInvalido = '';
+        const descricao = 'Descrição qualquer';
+        const estoque = 50;
+
+        expect(() => new Semente(nomeInvalido, descricao, estoque))
+            .toThrow('O nome da semente é obrigatório.');
+    });
 });
