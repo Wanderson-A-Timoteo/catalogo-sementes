@@ -22,4 +22,9 @@ describe('Classe Semente', () => {
         expect(() => new Semente(nomeInvalido, descricao, estoque))
             .toThrow('O nome da semente é obrigatório.');
     });
+
+    it('deve lançar um erro se o estoque inicial for negativo', () => {
+        expect(() => new Semente('Tomate', 'Descrição', -10))
+            .toThrow('O estoque não pode ser negativo.');
+    });
 });
