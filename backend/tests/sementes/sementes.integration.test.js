@@ -48,4 +48,12 @@ describe('API de Sementes', () => {
         expect(response.body.estoque).toBe(dadosAtualizados.estoque);
     });
 
+    it('PUT /sementes/:nome - deve retornar 404 se a semente não for encontrada', async () => {
+        const response = await request(app)
+            .put('/sementes/NomeInexistente')
+            .send({ estoque: 10 });
+
+        expect(response.status).toBe(404);
+    });
+
 });
