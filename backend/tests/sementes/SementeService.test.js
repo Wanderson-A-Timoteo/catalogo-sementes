@@ -2,6 +2,11 @@ const SementeService = require('../../src/sementes/SementeService');
 const Semente = require('../../src/sementes/Semente');
 
 describe('SementeService', () => {
+    let sementeService;
+
+    beforeEach(() => {
+        sementeService = new SementeService();
+    });
     
     it('deve criar uma nova semente com sucesso', () => {
         const sementeService = new SementeService();
@@ -32,6 +37,18 @@ describe('SementeService', () => {
 
         expect(sementeEncontrada).toBeDefined();
         expect(sementeEncontrada.nome).toBe('Alface Crespa');
+    });
+
+    it('deve listar todas as sementes cadastradas', () => {
+        
+        sementeService.criar({ nome: 'Tomate', descricao: 'Vermelho e suculento', estoque: 10 });
+        sementeService.criar({ nome: 'Cenoura', descricao: 'Laranja e crocante', estoque: 25 });
+
+        const sementes = sementeService.listarTodas();
+
+        expect(Array.isArray(sementes)).toBe(true);
+        expect(sementes.length).toBe(2);
+        expect(sementes[0].nome).toBe('Tomate');
     });
 
 });

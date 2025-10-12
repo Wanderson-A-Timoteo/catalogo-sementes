@@ -22,6 +22,10 @@ class SementeService {
         );
         return sementeEncontrada;
     }
+
+    listarTodas() {
+        return this.sementes;
+    }
 }
 
 module.exports = SementeService;
