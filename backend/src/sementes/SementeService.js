@@ -26,6 +26,19 @@ class SementeService {
     listarTodas() {
         return this.sementes;
     }
+
+    atualizar(nome, dadosParaAtualizar) {
+        const semente = this.encontrarPorNome(nome);
+
+        if (!semente) {
+            return null; 
+        }
+
+        semente.descricao = dadosParaAtualizar.descricao || semente.descricao;
+        semente.estoque = dadosParaAtualizar.estoque !== undefined ? dadosParaAtualizar.estoque : semente.estoque;
+
+        return semente;
+    }
 }
 
 module.exports = SementeService;
