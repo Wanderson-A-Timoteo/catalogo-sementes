@@ -39,6 +39,17 @@ class SementeService {
 
         return semente;
     }
+
+    deletar(nome) {
+        const index = this.sementes.findIndex(semente => semente.nome === nome);
+
+        if (index === -1) {
+            return false; // Indica que a semente não foi encontrada
+        }
+
+        this.sementes.splice(index, 1);
+        return true; // Indica que a deleção foi bem-sucedida
+    }
 }
 
 module.exports = SementeService;

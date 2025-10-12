@@ -56,4 +56,18 @@ describe('API de Sementes', () => {
         expect(response.status).toBe(404);
     });
 
+    it('DELETE /sementes/:nome - deve deletar uma semente existente', async () => {
+        const semente = {
+            nome: 'Pimenta Biquinho',
+            descricao: 'Pimenta de cheiro, sem ardor.',
+            estoque: 200
+        };
+        await request(app).post('/sementes').send(semente);
+
+        const response = await request(app)
+            .delete(`/sementes/${semente.nome}`);
+
+        expect(response.status).toBe(204);
+    });
+
 });
