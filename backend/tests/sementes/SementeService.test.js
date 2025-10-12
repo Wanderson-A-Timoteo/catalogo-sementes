@@ -72,4 +72,9 @@ describe('SementeService', () => {
         expect(sementeAtualizada.estoque).toBe(0);
     });
 
+    it('deve retornar false ao tentar deletar uma semente que não existe', () => {
+        const sucesso = sementeService.deletar('Nome Inexistente');
+        expect(sucesso).toBe(false);
+    });
+
 });

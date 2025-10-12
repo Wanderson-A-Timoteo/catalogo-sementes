@@ -70,4 +70,11 @@ describe('API de Sementes', () => {
         expect(response.status).toBe(204);
     });
 
+    it('DELETE /sementes/:nome - deve retornar 404 se a semente a ser deletada não for encontrada', async () => {
+        const response = await request(app)
+            .delete('/sementes/NomeInexistente');
+
+        expect(response.status).toBe(404);
+    });
+
 });
