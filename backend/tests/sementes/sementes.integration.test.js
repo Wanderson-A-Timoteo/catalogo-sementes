@@ -11,4 +11,19 @@ describe('API de Sementes', () => {
         expect(response.body).toEqual([]);
     });
 
+    it('POST /sementes - deve criar uma nova semente com sucesso', async () => {
+        const novaSemente = {
+            nome: 'Manjericão',
+            descricao: 'Ideal para molhos e pestos.',
+            estoque: 150
+        };
+
+        const response = await request(app)
+            .post('/sementes')
+            .send(novaSemente);
+
+        expect(response.status).toBe(201); // 201 Created
+        expect(response.body.nome).toBe('Manjericão');
+    });
+
 });

@@ -10,4 +10,10 @@ router.get('/', function(req, res, next) {
   res.status(200).json(sementes);
 });
 
+/* POST para criar uma nova semente. */
+router.post('/', function(req, res, next) {
+  const novaSemente = sementeService.criar(req.body);
+  res.status(201).json(novaSemente);
+});
+
 module.exports = router;
