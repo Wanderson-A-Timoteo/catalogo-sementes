@@ -51,4 +51,25 @@ describe('SementeService', () => {
         expect(sementes[0].nome).toBe('Tomate');
     });
 
+    it('deve retornar null ao tentar atualizar uma semente que não existe', () => {
+        const sementeAtualizada = sementeService.atualizar('Nome Inexistente', {});
+        expect(sementeAtualizada).toBeNull();
+    });
+
+    it('deve atualizar apenas a descrição da semente', () => {
+        sementeService.criar({ nome: 'Manjericão', descricao: 'Original', estoque: 10 });
+        const sementeAtualizada = sementeService.atualizar('Manjericão', { descricao: 'Nova Descrição' });
+
+        expect(sementeAtualizada.descricao).toBe('Nova Descrição');
+        expect(sementeAtualizada.estoque).toBe(10);
+    });
+
+    it('deve atualizar apenas o estoque da semente, incluindo o valor 0', () => {
+        sementeService.criar({ nome: 'Manjericão', descricao: 'Original', estoque: 10 });
+        const sementeAtualizada = sementeService.atualizar('Manjericão', { estoque: 0 });
+
+        expect(sementeAtualizada.descricao).toBe('Original');
+        expect(sementeAtualizada.estoque).toBe(0);
+    });
+
 });

@@ -22,8 +22,38 @@ describe('API de Sementes', () => {
             .post('/sementes')
             .send(novaSemente);
 
-        expect(response.status).toBe(201); // 201 Created
+        expect(response.status).toBe(201);
         expect(response.body.nome).toBe('Manjericão');
+    });
+
+    it('PUT /sementes/:nome - deve atualizar uma semente existente', async () => {
+        const sementeOriginal = {
+            nome: 'Coentro',
+            descricao: 'Erva aromática.',
+            estoque: 70
+        };
+        await request(app).post('/sementes').send(sementeOriginal);
+
+        const dadosAtualizados = {
+            descricao: 'Erva aromática muito utilizada na culinária nordestina.',
+            estoque: 60
+        };
+
+        const response = await request(app)
+            .put(`/sementes/${sementeOriginal.nome}`)
+            .send(dadosAtualizados);
+
+        expect(response.status).toBe(200);
+        expect(response.body.descricao).toBe(dadosAtualizados.descricao);
+        expect(response.body.estoque).toBe(dadosAtualizados.estoque);
+    });
+
+    it('PUT /sementes/:nome - deve retornar 404 se a semente não for encontrada', async () => {
+        const response = await request(app)
+            .put('/sementes/NomeInexistente')
+            .send({ estoque: 10 });
+
+        expect(response.status).toBe(404);
     });
 
 });
