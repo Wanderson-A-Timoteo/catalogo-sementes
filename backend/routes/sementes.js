@@ -30,4 +30,17 @@ router.put('/:nome', function(req, res, next) {
   res.status(200).json(sementeAtualizada);
 });
 
+/* DELETE para deletar uma semente existente. */
+router.delete('/:nome', function(req, res, next) {
+  const { nome } = req.params;
+
+  const sucesso = sementeService.deletar(nome);
+
+  if (!sucesso) {
+    return res.status(404).json({ erro: 'Semente não encontrada' });
+  }
+
+  res.status(204).send();
+});
+
 module.exports = router;
