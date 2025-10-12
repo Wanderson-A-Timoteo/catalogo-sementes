@@ -15,6 +15,13 @@ class SementeService {
 
         return novaSemente;
     }
+
+    encontrarPorNome(nome) {
+        const sementeEncontrada = this.sementes.find(
+            (semente) => semente.nome === nome
+        );
+        return sementeEncontrada;
+    }
 }
 
 module.exports = SementeService;
