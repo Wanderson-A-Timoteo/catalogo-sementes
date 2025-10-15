@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Sementes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>🌱 Catálogo de Sementes</h1>
+      <a href="./cadastro.html" class="btn btn-primary">Adicionar Nova Semente</a>
+    </div>
+
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Estoque</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-sementes">
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // URL da API back-end
+    const apiUrl = 'http://localhost:3000/sementes';
+
+    // Função para buscar os dados da API e renderizar a tabela
+    async function carregarSementes() {
+      const tabelaCorpo = document.getElementById('tabela-sementes');
+      tabelaCorpo.innerHTML = '<tr><td colspan="3">Carregando...</td></tr>'; // Mensagem de carregamento
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error('Falha ao buscar dados da API');
+        }
+        const sementes = await response.json();
+
+        // Limpa a tabela antes de adicionar os novos dados
+        tabelaCorpo.innerHTML = '';
+
+        if (sementes.length === 0) {
+          tabelaCorpo.innerHTML = '<tr><td colspan="3">Nenhuma semente cadastrada.</td></tr>';
+        } else {
+          sementes.forEach(semente => {
+            const linha = `
+                            <tr>
+                                <td>${semente.nome}</td>
+                                <td>${semente.descricao}</td>
+                                <td>${semente.estoque}</td>
+                            </tr>
+                        `;
+            tabelaCorpo.innerHTML += linha;
+          });
+        }
+      } catch (error) {
+        tabelaCorpo.innerHTML = `<tr><td colspan="3" class="text-danger">Erro ao carregar sementes: ${error.message}</td></tr>`;
+      }
+    }
+
+    // Garante que o script será executado após o carregamento completo da página
+    document.addEventListener('DOMContentLoaded', carregarSementes);
+  </script>
+</body>
+
+</html>
