@@ -77,4 +77,24 @@ describe('API de Sementes', () => {
         expect(response.status).toBe(404);
     });
 
+    it('GET /sementes/:nome - deve retornar os detalhes de uma semente específica', async () => {
+        // Primeiro, cria uma semente para garantir que ela exista no nosso "banco" em memória
+        const semente = { nome: 'Rúcula', descricao: 'Folhas de sabor picante.', estoque: 80 };
+        await request(app).post('/sementes').send(semente);
+
+        // Agora, tenta buscar essa semente
+        const response = await request(app)
+            .get(`/sementes/${semente.nome}`);
+
+        expect(response.status).toBe(200);
+        expect(response.body.nome).toBe('Rúcula');
+        expect(response.body.estoque).toBe(80);
+    });
+
+    it('GET /sementes/:nome - deve retornar 404 se a semente não for encontrada', async () => {
+        const response = await request(app)
+            .get('/sementes/NomeInexistente');
+
+        expect(response.status).toBe(404);
+    });
 });

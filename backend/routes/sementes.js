@@ -10,6 +10,18 @@ router.get('/', function(req, res, next) {
   res.status(200).json(sementes);
 });
 
+/* GET para buscar uma semente específica pelo nome. */
+router.get('/:nome', function(req, res, next) {
+  const { nome } = req.params;
+  const semente = sementeService.encontrarPorNome(nome);
+
+  if (!semente) {
+    return res.status(404).json({ erro: 'Semente não encontrada' });
+  }
+
+  res.status(200).json(semente);
+});
+
 /* POST para criar uma nova semente. */
 router.post('/', function(req, res, next) {
   const novaSemente = sementeService.criar(req.body);
