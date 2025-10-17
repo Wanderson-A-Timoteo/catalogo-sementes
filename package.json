@@ -1,0 +1,30 @@
+{
+  "name": "catalogo-sementes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:acceptance": "jest --testMatch '**/tests/acceptance/**/*.steps.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wanderson-A-Timoteo/catalogo-sementes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wanderson-A-Timoteo/catalogo-sementes/issues"
+  },
+  "homepage": "https://github.com/Wanderson-A-Timoteo/catalogo-sementes#readme",
+  "devDependencies": {
+    "axios": "^1.12.2",
+    "jest": "^30.2.0",
+    "jest-cucumber": "^4.5.0",
+    "puppeteer": "^24.25.0"
+  }
+}
