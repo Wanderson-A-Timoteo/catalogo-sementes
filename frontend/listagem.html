@@ -53,7 +53,7 @@
           sementes.forEach(semente => {
             const linha = `
                             <tr>
-                                <td>${semente.nome}</td>
+                                <td><a href="./detalhes.html?nome=${encodeURIComponent(semente.nome)}">${semente.nome}</a></td>
                                 <td>${semente.descricao}</td>
                                 <td>${semente.estoque}</td>
                             </tr>
