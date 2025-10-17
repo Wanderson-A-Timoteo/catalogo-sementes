@@ -55,4 +55,10 @@ router.delete('/:nome', function(req, res, next) {
   res.status(204).send();
 });
 
+/* POST para resetar o estado do serviço (APENAS PARA TESTES) */
+router.post('/reset', function(req, res, next) {
+  sementeService.reset();
+  res.status(204).send();
+});
+
 module.exports = router;

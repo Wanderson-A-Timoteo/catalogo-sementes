@@ -50,6 +50,10 @@ class SementeService {
         this.sementes.splice(index, 1);
         return true; // Indica que a deleção foi bem-sucedida
     }
+
+    reset() {
+        this.sementes = [];
+    }
 }
 
 module.exports = SementeService;
