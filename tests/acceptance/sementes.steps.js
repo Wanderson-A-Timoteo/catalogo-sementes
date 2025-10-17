@@ -19,6 +19,11 @@ defineFeature(feature, (test) => {
         page = await browser.newPage();
     });
 
+    beforeEach(async () => {
+        // Chama a rota de reset antes de cada cenário
+        await axios.post(`${backendUrl}/sementes/reset`);
+    });
+
     // Fecha o navegador após todos os testes
     afterAll(async () => {
         await browser.close();
@@ -54,6 +59,50 @@ defineFeature(feature, (test) => {
 
         and(/^a semente "(.*)" deve estar na lista$/, async (nomeSemente) => {
             // Verifica se o texto da semente aparece no corpo da tabela
+            const conteudoTabela = await page.$eval('#tabela-sementes', el => el.innerText);
+            expect(conteudoTabela).toContain(nomeSemente);
+        });
+    });
+
+    test('Cadastrar uma nova semente com sucesso', ({ when, and, then }) => {
+        const cadastroUrl = 'http://localhost:8080/cadastro.html';
+
+        when('eu acesso a página de cadastro', async () => {
+            await page.goto(cadastroUrl);
+            const titulo = await page.title();
+            expect(titulo).toBe("Cadastrar Nova Semente");
+        });
+
+        and(/^eu preencho o nome com "(.*)"$/, async (nome) => {
+            await page.type('#nome', nome);
+        });
+
+        and(/^eu preencho a descrição com "(.*)"$/, async (descricao) => {
+            await page.type('#descricao', descricao);
+        });
+
+        and(/^eu preencho o estoque com "(.*)"$/, async (estoque) => {
+            await page.type('#estoque', estoque);
+        });
+
+        and(/^eu clico no botão "(.*)"$/, async (nomeBotao) => {
+            // CORREÇÃO: Adicionamos o "ouvinte" para o alert aqui
+            page.on('dialog', async dialog => {
+                await dialog.dismiss(); // Apenas fecha o alerta
+            });
+
+            await page.click('button[type="submit"]');
+        });
+
+        then('eu devo ser redirecionado para a página de listagem', async () => {
+            // Esperamos por um elemento da página de destino aparecer.
+            await page.waitForSelector('#tabela-sementes');
+            
+            const urlAtual = await page.url();
+            expect(urlAtual).toContain('listagem.html');
+        });
+
+        and(/^a semente "(.*)" deve estar na lista$/, async (nomeSemente) => {
             const conteudoTabela = await page.$eval('#tabela-sementes', el => el.innerText);
             expect(conteudoTabela).toContain(nomeSemente);
         });
