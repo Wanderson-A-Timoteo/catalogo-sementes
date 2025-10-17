@@ -2,6 +2,10 @@ const request = require('supertest');
 const app = require('../../app');
 
 describe('API de Sementes', () => {
+    beforeEach(async () => {
+         // Limpa o estado da API antes de cada teste
+        await request(app).post('/sementes/reset');
+    });
 
     it('GET /sementes - deve retornar uma lista vazia de sementes inicialmente', async () => {
         const response = await request(app)
@@ -94,6 +98,13 @@ describe('API de Sementes', () => {
     it('GET /sementes/:nome - deve retornar 404 se a semente não for encontrada', async () => {
         const response = await request(app)
             .get('/sementes/NomeInexistente');
+
+        expect(response.status).toBe(404);
+    });
+
+    it('DELETE /sementes/:nome - deve retornar 404 se a semente a ser deletada não for encontrada', async () => {
+        const response = await request(app)
+            .delete('/sementes/NomeInexistente');
 
         expect(response.status).toBe(404);
     });
